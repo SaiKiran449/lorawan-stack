@@ -1583,6 +1583,15 @@
       "file": "root.go"
     }
   },
+  "error:cmd/ttn-lw-cli/internal/util:field_is_required": {
+    "translations": {
+      "en": "field `{field}` is required"
+    },
+    "description": {
+      "package": "cmd/ttn-lw-cli/internal/util",
+      "file": "flags.go"
+    }
+  },
   "error:cmd/ttn-lw-cli/internal/util:flag_value": {
     "translations": {
       "en": "invalid flag value"
