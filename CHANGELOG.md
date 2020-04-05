@@ -20,6 +20,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- CLI prints error on invalid enum values instead of interpreting them as zero.
+
 ### Security
 
 ## [3.7.0] (2020-04-02)

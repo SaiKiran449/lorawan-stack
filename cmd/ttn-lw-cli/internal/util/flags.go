@@ -569,7 +569,7 @@ func setField(rv reflect.Value, path []string, v reflect.Value) error {
 							break
 						}
 						var enum ttnpb.DataRateIndex
-						if err := enum.UnmarshalText([]byte(v.String())); err != nil {
+						if err := enum.UnmarshalText([]byte(v.String())); err != nil && enum != 0 {
 							field.Set(reflect.ValueOf(ttnpb.DataRateIndexValue{Value: enum}))
 							break
 						}
@@ -580,7 +580,7 @@ func setField(rv reflect.Value, path []string, v reflect.Value) error {
 							break
 						}
 						var enum ttnpb.PingSlotPeriod
-						if err := enum.UnmarshalText([]byte(v.String())); err != nil {
+						if err := enum.UnmarshalText([]byte(v.String())); err != nil && enum != 0 {
 							field.Set(reflect.ValueOf(ttnpb.PingSlotPeriodValue{Value: enum}))
 							break
 						}
@@ -591,7 +591,7 @@ func setField(rv reflect.Value, path []string, v reflect.Value) error {
 							break
 						}
 						var enum ttnpb.AggregatedDutyCycle
-						if err := enum.UnmarshalText([]byte(v.String())); err != nil {
+						if err := enum.UnmarshalText([]byte(v.String())); err != nil && enum != 0 {
 							field.Set(reflect.ValueOf(ttnpb.AggregatedDutyCycleValue{Value: enum}))
 							break
 						}
@@ -602,7 +602,7 @@ func setField(rv reflect.Value, path []string, v reflect.Value) error {
 							break
 						}
 						var enum ttnpb.RxDelay
-						if err := enum.UnmarshalText([]byte(v.String())); err != nil {
+						if err := enum.UnmarshalText([]byte(v.String())); err != nil && enum != 0 {
 							field.Set(reflect.ValueOf(ttnpb.RxDelayValue{Value: enum}))
 							break
 						}
@@ -613,7 +613,7 @@ func setField(rv reflect.Value, path []string, v reflect.Value) error {
 							break
 						}
 						var enum ttnpb.ADRAckDelayExponent
-						if err := enum.UnmarshalText([]byte(v.String())); err != nil {
+						if err := enum.UnmarshalText([]byte(v.String())); err != nil && enum != 0 {
 							field.Set(reflect.ValueOf(ttnpb.ADRAckDelayExponentValue{Value: enum}))
 							break
 						}
@@ -624,7 +624,7 @@ func setField(rv reflect.Value, path []string, v reflect.Value) error {
 							break
 						}
 						var enum ttnpb.ADRAckLimitExponent
-						if err := enum.UnmarshalText([]byte(v.String())); err != nil {
+						if err := enum.UnmarshalText([]byte(v.String())); err != nil && enum != 0 {
 							field.Set(reflect.ValueOf(ttnpb.ADRAckLimitExponentValue{Value: enum}))
 							break
 						}
