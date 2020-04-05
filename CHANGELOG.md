@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - CLI can now dump JSON encoded `grpc_payload` field for unary requests (see `--dump-requests` flag).
 - Template ID column in the webhook table in the Console.
+- Specify gRPC port and OAuth server address when generating a CLI config file with `ttn-lw-cli use` (see `--grpc-port` and `--oauth-server-address` options).
 
 ### Changed
 
