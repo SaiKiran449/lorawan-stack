@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - CLI can now dump JSON encoded `grpc_payload` field for unary requests (see `--dump-requests` flag).
+- CLI can now null enum fields (For example, `ttn-lw-cli dev update app dev --mac-settings.rx1-delay=null`)
 
 ### Changed
 

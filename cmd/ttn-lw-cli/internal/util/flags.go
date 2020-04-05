@@ -164,7 +164,7 @@ func isSettableField(name string) bool {
 	return true
 }
 
-func enumValues(t reflect.Type) []string {
+func enumValues(t reflect.Type, required bool) []string {
 	if t.PkgPath() == "go.thethings.network/lorawan-stack/pkg/ttnpb" {
 		valueMap := make(map[string]int32)
 		implementsStringer := t.Implements(reflect.TypeOf((*fmt.Stringer)(nil)).Elem())
@@ -184,6 +184,9 @@ func enumValues(t reflect.Type) []string {
 		for value := range valueMap {
 			values = append(values, value)
 		}
+		if !required {
+			values = append(values, "null")
+		}
 		sort.Strings(values)
 		return values
 	}
@@ -194,7 +197,7 @@ func unwrapLoRaWANEnumType(typeName string) string {
 	return fmt.Sprintf("ttn.lorawan.v3.%s", strings.TrimSuffix(strings.TrimPrefix(typeName, ""), "Value"))
 }
 
-func addField(fs *pflag.FlagSet, name string, t reflect.Type, maskOnly bool) {
+func addField(fs *pflag.FlagSet, name string, t reflect.Type, maskOnly bool, required bool) {
 	if maskOnly {
 		if t.Kind() == reflect.Struct && !isAtomicType(t, maskOnly) {
 			fs.Bool(name, false, fmt.Sprintf("select the %s field and all allowed sub-fields", name))
@@ -263,6 +266,9 @@ func addField(fs *pflag.FlagSet, name string, t reflect.Type, maskOnly bool) {
 			for value := range proto.EnumValueMap(enumType) {
 				values = append(values, value)
 			}
+			if !required {
+				values = append(values, "null")
+			}
 			fs.String(name, "", strings.Join(values, "|"))
 			return
 
@@ -271,7 +277,7 @@ func addField(fs *pflag.FlagSet, name string, t reflect.Type, maskOnly bool) {
 			return
 		}
 		if t.Kind() == reflect.Int32 {
-			if values := enumValues(t); values != nil {
+			if values := enumValues(t, required); values != nil {
 				fs.String(name, "", strings.Join(values, "|"))
 				return
 			}
@@ -329,7 +335,7 @@ func addField(fs *pflag.FlagSet, name string, t reflect.Type, maskOnly bool) {
 			fs.StringSlice(name, nil, "")
 			return
 		case reflect.Int32:
-			if values := enumValues(el); values != nil {
+			if values := enumValues(el, required); values != nil {
 				fs.StringSlice(name, nil, strings.Join(values, "|"))
 				return
 			}
@@ -393,7 +399,13 @@ func fieldMaskFlags(prefix []string, t reflect.Type, maskOnly bool) *pflag.FlagS
 		if isStopType(t, maskOnly) {
 			continue
 		}
-		addField(flagSet, name, fieldType, maskOnly)
+		canBeNil := !prop.Required
+		switch prop.OrigName {
+		case "lorawan_version", "lorawan_phy_version", "selected_mac_version":
+			canBeNil = false
+		}
+
+		addField(flagSet, name, fieldType, maskOnly, !canBeNil)
 		if fieldType.Kind() == reflect.Struct && !isAtomicType(fieldType, maskOnly) {
 			flagSet.AddFlagSet(fieldMaskFlags(path, fieldType, maskOnly))
 		}
@@ -466,7 +478,10 @@ func SetFields(dst interface{}, flags *pflag.FlagSet, prefix ...string) error {
 	return nil
 }
 
-var textUnmarshalerType = reflect.TypeOf((*encoding.TextUnmarshaler)(nil)).Elem()
+var (
+	errFieldRequired    = errors.DefineInvalidArgument("field_is_required", "field `{field}` is required")
+	textUnmarshalerType = reflect.TypeOf((*encoding.TextUnmarshaler)(nil)).Elem()
+)
 
 func setField(rv reflect.Value, path []string, v reflect.Value) error {
 	rt := rv.Type()
@@ -474,6 +489,12 @@ func setField(rv reflect.Value, path []string, v reflect.Value) error {
 	props := proto.GetProperties(rt)
 	for _, prop := range props.Prop {
 		if prop.OrigName == path[0] {
+			if len(path) == 1 && v.String() == "null" {
+				if !prop.Required {
+					return nil
+				}
+				return errFieldRequired.WithAttributes("field", path[0])
+			}
 			field := rv.FieldByName(prop.Name)
 			if field.Type().Kind() == reflect.Ptr {
 				if field.IsNil() {
