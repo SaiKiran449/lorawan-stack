@@ -33,7 +33,10 @@ import { mayViewOrganizationInformation } from '../../lib/feature-checks'
 @withFeatureRequirement(mayViewOrganizationInformation, {
   redirect: '/',
 })
-@withRequest(({ orgId, loadData }) => loadData(orgId), () => false)
+@withRequest(
+  ({ orgId, loadData }) => loadData(orgId),
+  () => false,
+)
 class Overview extends React.Component {
   static propTypes = {
     apiKeysTotalCount: PropTypes.number,

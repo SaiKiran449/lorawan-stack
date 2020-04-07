@@ -40,12 +40,9 @@ const m = defineMessages({
   authorize: 'Authorize',
 })
 
-@connect(
-  undefined,
-  dispatch => ({
-    redirectToLogin: () => dispatch(replace('/login')),
-  }),
-)
+@connect(undefined, dispatch => ({
+  redirectToLogin: () => dispatch(replace('/login')),
+}))
 @withEnv
 @bind
 export default class Authorize extends PureComponent {

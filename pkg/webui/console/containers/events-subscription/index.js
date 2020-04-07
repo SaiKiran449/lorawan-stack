@@ -27,10 +27,7 @@ const mapStateToProps = (state, props) => {
   }
 }
 
-const ConnectedEventsSubscription = connect(
-  mapStateToProps,
-  EventsSubscription,
-)
+const ConnectedEventsSubscription = connect(mapStateToProps, EventsSubscription)
 
 ConnectedEventsSubscription.propTypes = {
   errorSelector: PropTypes.func.isRequired,

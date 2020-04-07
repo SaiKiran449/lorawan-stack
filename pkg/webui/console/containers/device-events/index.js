@@ -28,13 +28,10 @@ import {
   selectDeviceEventsError,
 } from '../../store/selectors/devices'
 
-@connect(
-  null,
-  (dispatch, ownProps) => ({
-    onClear: () => dispatch(clearDeviceEventsStream(ownProps.devIds)),
-    onRestart: () => dispatch(startDeviceEventsStream(ownProps.devIds)),
-  }),
-)
+@connect(null, (dispatch, ownProps) => ({
+  onClear: () => dispatch(clearDeviceEventsStream(ownProps.devIds)),
+  onRestart: () => dispatch(startDeviceEventsStream(ownProps.devIds)),
+}))
 @bind
 class DeviceEvents extends React.Component {
   static propTypes = {

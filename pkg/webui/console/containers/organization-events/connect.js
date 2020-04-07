@@ -34,9 +34,4 @@ const mergeProps = (_, propsFromDispatch, ownProps) => ({
   errorSelector: selectOrganizationEventsError,
 })
 
-export default Events =>
-  connect(
-    null,
-    mapDispatchToProps,
-    mergeProps,
-  )(Events)
+export default Events => connect(null, mapDispatchToProps, mergeProps)(Events)

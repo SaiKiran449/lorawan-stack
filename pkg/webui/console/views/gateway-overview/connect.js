@@ -71,8 +71,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 })
 
 export default GatewayOverview =>
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    mergeProps,
-  )(GatewayOverview)
+  connect(mapStateToProps, mapDispatchToProps, mergeProps)(GatewayOverview)

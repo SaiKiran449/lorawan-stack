@@ -35,7 +35,10 @@ import withFeatureRequirement from '../../lib/components/with-feature-requiremen
 
 import { mayEditBasicGatewayInformation } from '../../lib/feature-checks'
 
-@withRequest(({ gtwId, loadData }) => loadData(gtwId), () => false)
+@withRequest(
+  ({ gtwId, loadData }) => loadData(gtwId),
+  () => false,
+)
 @withFeatureRequirement(mayEditBasicGatewayInformation, {
   redirect: '/',
 })

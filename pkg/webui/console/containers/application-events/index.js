@@ -33,13 +33,10 @@ import {
 } from '../../store/selectors/applications'
 
 @withFeatureRequirement(mayViewApplicationEvents)
-@connect(
-  null,
-  (dispatch, ownProps) => ({
-    onClear: () => dispatch(clearApplicationEventsStream(ownProps.appId)),
-    onRestart: () => dispatch(startApplicationEventsStream(ownProps.appId)),
-  }),
-)
+@connect(null, (dispatch, ownProps) => ({
+  onClear: () => dispatch(clearApplicationEventsStream(ownProps.appId)),
+  onRestart: () => dispatch(startApplicationEventsStream(ownProps.appId)),
+}))
 @bind
 export default class ApplicationEvents extends React.Component {
   static propTypes = {

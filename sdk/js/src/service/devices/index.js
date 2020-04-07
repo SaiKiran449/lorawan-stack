@@ -179,7 +179,10 @@ class Devices {
         const res = await this._getDevice(
           appId,
           devId,
-          [['ids', 'join_eui'], ['ids', 'dev_eui']],
+          [
+            ['ids', 'join_eui'],
+            ['ids', 'dev_eui'],
+          ],
           true,
         )
         if (!res.ids || !res.ids.join_eui || !res.ids.dev_eui) {

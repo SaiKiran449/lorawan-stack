@@ -18,12 +18,9 @@ import { connect } from 'react-redux'
 import PropTypes from '../../../lib/prop-types'
 import EventsSubscription from '../../containers/events-subscription'
 import { startOrganizationEventsStream } from '../../store/actions/organizations'
-@connect(
-  null,
-  (dispatch, ownProps) => ({
-    onRestart: () => dispatch(startOrganizationEventsStream(ownProps.orgId)),
-  }),
-)
+@connect(null, (dispatch, ownProps) => ({
+  onRestart: () => dispatch(startOrganizationEventsStream(ownProps.orgId)),
+}))
 export default class OrganizationEvents extends React.Component {
   static propTypes = {
     errorSelector: PropTypes.func.isRequired,

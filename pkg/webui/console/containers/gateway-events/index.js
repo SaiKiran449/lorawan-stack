@@ -27,13 +27,10 @@ import {
   selectGatewayEventsError,
 } from '../../store/selectors/gateways'
 
-@connect(
-  null,
-  (dispatch, ownProps) => ({
-    onClear: () => dispatch(clearGatewayEventsStream(ownProps.gtwId)),
-    onRestart: () => dispatch(startGatewayEventsStream(ownProps.gtwId)),
-  }),
-)
+@connect(null, (dispatch, ownProps) => ({
+  onClear: () => dispatch(clearGatewayEventsStream(ownProps.gtwId)),
+  onRestart: () => dispatch(startGatewayEventsStream(ownProps.gtwId)),
+}))
 @bind
 export default class GatewayEvents extends React.Component {
   static propTypes = {
